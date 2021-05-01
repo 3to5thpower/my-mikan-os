@@ -7,6 +7,11 @@ ELF=kernel.elf
 BOOTLOADER_PATH=${HOME}/edk2/Build/MikanLoaderX64/DEBUG_CLANG38/X64/Loader.efi
 QEMU_RUNNER_PATH=${HOME}/osbook/devenv/run_qemu.sh
 
+.PHONY: clean
+
+run: main.o $(ELF)
+	${QEMU_RUNNER_PATH} ${BOOTLOADER_PATH} $(ELF)
+
 setup:
 	source ${HOME}/edk2/edksetup.sh
 
@@ -19,12 +24,12 @@ main.o: main.cpp
 $(ELF): main.o
 	ld.lld --entry KernelMain -z norelro --image-base 0x100000 --static -o $(ELF) main.o
 
-run: main.o $(ELF)
-	${QEMU_RUNNER_PATH} ${BOOTLOADER_PATH} $(ELF)
-
 install:
 	sudo mount -t drvfs E: /mnt/usbmem
 	sudo cp ${ELF} /mnt/usbmem/kernel.elf
 	sudo cp ${BOOTLOADER_PATH} /mnt/usbmem/EFI/BOOT/BOOTX64.EFI
 	sudo umount /mnt/usbmem
+
+clean:
+	rm -rf *.o *.elf *.img mnt
 
