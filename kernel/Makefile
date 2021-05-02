@@ -1,10 +1,14 @@
 SHELL=/bin/zsh
 CXX=clang++
-CXXFLAGS=-O2 -Wall -Wextra -g -std=c++17
+CXXFLAGS=-O2 -Wall -Wextra -g -std=c++17 -I${BASEDIR}/include/c++/v1 -I${BASEDIR}/include -I${BASEDIR}/include/freetype2 -I${EDK2DIR}/MdePkg/Include -I${EDK2DIR}/MdePkg/Include/X64 -nostdlibinc -D__ELF__ -D_LDBL_EQ_DBL -D_GNU_SOURCE -D_POSIX_TIMERS -DEFIAPI='__attribute__((ms_abi))'
+
+BASEDIR=${HOME}/osbook/devenv/x86_64-elf
+EDK2DIR=${HOME}/edk2
+LDFLAGS=-L${BASEDIR}/lib
 
 ARCH_OPT=--target=x86_64-elf -ffreestanding -mno-red-zone -fno-exceptions -fno-rtti
 ELF=kernel.elf
-BOOTLOADER_PATH=${HOME}/edk2/Build/MikanLoaderX64/DEBUG_CLANG38/X64/Loader.efi
+BOOTLOADER_PATH=${EDK2DIR}/Build/MikanLoaderX64/DEBUG_CLANG38/X64/Loader.efi
 QEMU_RUNNER_PATH=${HOME}/osbook/devenv/run_qemu.sh
 
 .PHONY: clean
@@ -12,11 +16,8 @@ QEMU_RUNNER_PATH=${HOME}/osbook/devenv/run_qemu.sh
 run: main.o $(ELF)
 	${QEMU_RUNNER_PATH} ${BOOTLOADER_PATH} $(ELF)
 
-setup:
-	source ${HOME}/edk2/edksetup.sh
-
-bootloader: setup
-	build
+bootloader:
+	cd ${EDK2DIR}; source ${EDK2DIR}/edksetup.sh;build
 
 main.o: main.cpp
 	$(CXX) $(CXXFLAGS) $(ARCH_OPT) -c main.cpp -o main.o
