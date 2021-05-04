@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../frame_buffer_config.hpp"
+#include "../frame_buffer_config.hpp"
 
 struct PixelColor {
     uint8_t r, g, b;

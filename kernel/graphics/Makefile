@@ -1,14 +1,11 @@
-OBJS=graphics.o font.o
+OBJS=graphics.o
 
 .PHONY: all target clean
 all: $(OBJS)
 target: $(OBJS)
 
-graphics.o: src/graphics.cpp Makefile
-	$(CXX) $(CXXFLAGS) $(ARCH_OPT) -I ./include -c $< -o $@
-
-font.o: src/font.cpp src/graphics.cpp Makefile
-	$(CXX) $(CXXFLAGS) $(ARCH_OPT) -I ./include -c $< -o $@
+graphics.o: graphics.cpp Makefile
+	$(CXX) $(CXXFLAGS) $(ARCH_OPT)  -c $< -o $@
 
 clean:
 	rm -rf *.o
