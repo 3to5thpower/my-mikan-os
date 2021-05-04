@@ -1,11 +1,17 @@
 SHELL=/bin/zsh
 export CXX=clang++
-export CXXFLAGS=-O2 -Wall -Wextra -g -std=c++17 -I${BASEDIR}/include/c++/v1 \
+export CXXFLAGS=-O2 -Wall -Wextra -g -std=c++17 $(INCLUDE_OPT)\
+	-D_GNU_SOURCE -D_POSIX_TIMERS -DEFIAPI='__attribute__((ms_abi))'
+export ARCH_OPT=--target=x86_64-elf -ffreestanding -mno-red-zone -fno-exceptions -fno-rtti
+
+INCLUDE_OPT=  -I${BASEDIR}/include/c++/v1 \
 	-I${BASEDIR}/include -I${BASEDIR}/include/freetype2 -I${BASEDIR}/include/sys \
 	-I${EDK2DIR}/MdePkg/Include \
 	-I${EDK2DIR}/MdePkg/Include/X64 -nostdlibinc -D__ELF__ -D_LDBL_EQ_DBL \
-	-D_GNU_SOURCE -D_POSIX_TIMERS -DEFIAPI='__attribute__((ms_abi))'
-export ARCH_OPT=--target=x86_64-elf -ffreestanding -mno-red-zone -fno-exceptions -fno-rtti
+
+
+CC=clang
+CFLAGS=-O2 -Wall -g --target=x86_64-elf -ffreestanding -mno-red-zone $(INCLUDE_OPT)
 
 BASEDIR=${HOME}/osbook/devenv/x86_64-elf
 EDK2DIR=${HOME}/edk2
@@ -33,8 +39,11 @@ $(SUBDIRS):
 main.o: main.cpp Makefile
 	$(CXX) $(CXXFLAGS) $(ARCH_OPT) -c $<
 
-$(ELF): main.o $(SUBDIRS) Makefile
-	ld.lld --entry KernelMain -z norelro --image-base 0x100000 --static -o $(ELF) $(OBJS)
+%.o: %.c Makefile
+	$(CC) $(CFLAGS) -c $<
+
+$(ELF): main.o newlib_support.o $(SUBDIRS) Makefile
+	ld.lld $(LDFLAGS) --entry KernelMain -z norelro --image-base 0x100000 --static -o $(ELF) $(OBJS) -lc
 
 run: 
 	${QEMU_RUNNER_PATH} ${BOOTLOADER_PATH} $(ELF)
