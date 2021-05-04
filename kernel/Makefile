@@ -21,7 +21,7 @@ BOOTLOADER_PATH=${EDK2DIR}/Build/MikanLoaderX64/DEBUG_CLANG38/X64/Loader.efi
 QEMU_RUNNER_PATH=${HOME}/osbook/devenv/run_qemu.sh
 
 ELF=kernel.elf
-SUBDIRS=graphics font
+SUBDIRS=graphics font console
 OBJS+=$(shell find . -type f -name '*.o')
 
 .PHONY: all target clean run install $(SUBDIRS)
