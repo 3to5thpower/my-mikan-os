@@ -1,9 +1,9 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "font/font.hpp"
 #include "frame_buffer_config.hpp"
-#include "graphics/include/font.hpp"
-#include "graphics/include/graphics.hpp"
+#include "graphics/graphics.hpp"
 
 char pixel_writer_buf[sizeof(RGBResv8BitPerColorPixelWriter)];
 PixelWriter* pixel_writer;
@@ -37,8 +37,12 @@ extern "C" void KernelMain(const FrameBufferConfig& frame_buffer_config) {
             pixel_writer->Write(100 + x, 100 + y, {0, 255, 0});
         }
     }
-    WriteAscii(*pixel_writer, 50, 50, 'A', {0, 0, 0});
-    WriteAscii(*pixel_writer, 58, 50, 'A', {0, 0, 0});
+    WriteAscii(*pixel_writer, 50, 50, 'H', {0, 0, 0});
+    WriteAscii(*pixel_writer, 58, 50, 'e', {0, 0, 0});
+    WriteAscii(*pixel_writer, 66, 50, 'l', {0, 0, 0});
+    WriteAscii(*pixel_writer, 74, 50, 'l', {0, 0, 0});
+    WriteAscii(*pixel_writer, 82, 50, 'o', {0, 0, 0});
+    WriteAscii(*pixel_writer, 90, 50, '!', {0, 0, 0});
 
     while (1) __asm__("hlt");
 }
