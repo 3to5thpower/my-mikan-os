@@ -37,12 +37,12 @@ extern "C" void KernelMain(const FrameBufferConfig& frame_buffer_config) {
             pixel_writer->Write(100 + x, 100 + y, {0, 255, 0});
         }
     }
-    WriteAscii(*pixel_writer, 50, 50, 'H', {0, 0, 0});
-    WriteAscii(*pixel_writer, 58, 50, 'e', {0, 0, 0});
-    WriteAscii(*pixel_writer, 66, 50, 'l', {0, 0, 0});
-    WriteAscii(*pixel_writer, 74, 50, 'l', {0, 0, 0});
-    WriteAscii(*pixel_writer, 82, 50, 'o', {0, 0, 0});
-    WriteAscii(*pixel_writer, 90, 50, '!', {0, 0, 0});
+
+    int i = 0;
+    for (char c = '!'; c <= '~'; ++c, ++i) {
+        WriteAscii(*pixel_writer, 8 * i, 50, c, {0, 0, 0});
+    }
+    WriteString(*pixel_writer, 0, 66, "Hello, World!", {0, 0, 255});
 
     while (1) __asm__("hlt");
 }
