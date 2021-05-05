@@ -10,11 +10,9 @@ const uint16_t kConfigAddress = 0x0cf8;
 /** @brief CONFIG_DATAレジスタのIOポートアドレス */
 const uint16_t kConfigData = 0x0cfc;
 
-/** @brief CONFIG_ADDRESS用の32ビット整数を生成する */
-uint32_t MakeAddress(uint8_t bus, uint8_t device, uint8_t function,
-                     uint8_t reg_addr);
 void WriteAddress(uint32_t address);
 void WriteData(uint32_t value);
+
 uint32_t ReadData();
 uint16_t ReadVendorId(uint8_t bus, uint8_t device, uint8_t function);
 uint16_t ReadDeviceId(uint8_t bus, uint8_t device, uint8_t function);

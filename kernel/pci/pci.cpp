@@ -78,10 +78,7 @@ Error ScanBus(uint8_t bus) {
     return Error::kSuccess;
 }
 
-}  // namespace
-
-namespace pci {
-
+/** @brief CONFIG_ADDRESS用の32ビット整数を生成する */
 uint32_t MakeAddress(uint8_t bus, uint8_t device, uint8_t function,
                      uint8_t reg_addr) {
     auto shl = [](uint32_t x, unsigned int bits) { return x << bits; };
@@ -90,6 +87,10 @@ uint32_t MakeAddress(uint8_t bus, uint8_t device, uint8_t function,
            | shl(bus, 16) | shl(device, 11) | shl(function, 8) |
            (reg_addr & 0xfcu);
 }
+
+}  // namespace
+
+namespace pci {
 
 void WriteAddress(uint32_t address) { IoOut32(kConfigAddress, address); }
 void WriteData(uint32_t value) { IoOut32(kConfigData, value); }
