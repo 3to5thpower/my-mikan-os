@@ -5,7 +5,7 @@ all: $(OBJS)
 target: $(OBJS)
 
 font.o: font.cpp Makefile
-	$(CXX) $(CXXFLAGS) $(ARCH_OPT) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(ARCH_OPT) -I../ -c $< -o $@
 
 hankaku.bin: 
 	python3 makefont.py -o hankaku.bin hankaku.txt

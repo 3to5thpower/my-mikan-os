@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../frame_buffer_config.hpp"
-#include "vector2d.hpp"
+#include <frame_buffer_config.hpp>
+#include <util/vector2d.hpp>
 
 struct PixelColor {
     uint8_t r, g, b;

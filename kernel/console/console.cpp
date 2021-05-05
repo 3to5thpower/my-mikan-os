@@ -1,8 +1,7 @@
 #include "console.hpp"
 
 #include <cstring>
-
-#include "../font/font.hpp"
+#include <font/font.hpp>
 
 Console::Console(PixelWriter& writer, const PixelColor& fg_color,
                  const PixelColor& bg_color)
