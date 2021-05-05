@@ -4,3 +4,4 @@ compile_flags.txt
 *.img
 mnt
 hankaku.bin
+.vscode/c_cpp_properties.json

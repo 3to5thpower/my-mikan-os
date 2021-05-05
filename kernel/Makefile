@@ -21,7 +21,7 @@ BOOTLOADER_PATH=${EDK2DIR}/Build/MikanLoaderX64/DEBUG_CLANG38/X64/Loader.efi
 QEMU_RUNNER_PATH=${HOME}/osbook/devenv/run_qemu.sh
 
 ELF=kernel.elf
-SUBDIRS=graphics font console
+SUBDIRS=graphics font console pci
 OBJS+=$(shell find . -type f -name '*.o')
 
 .PHONY: all target clean run install $(SUBDIRS)
@@ -37,7 +37,7 @@ $(SUBDIRS):
 	$(MAKE) -C $@ $(MAKECMDGOALS)
 
 main.o: main.cpp Makefile
-	$(CXX) $(CXXFLAGS) $(ARCH_OPT) -c $<
+	$(CXX) $(CXXFLAGS) $(ARCH_OPT) -I./ -c $<
 
 %.o: %.c Makefile
 	$(CC) $(CFLAGS) -c $<
